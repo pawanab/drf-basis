@@ -20,6 +20,7 @@ from rest_framework import routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('sendy', include('sendy.urls')),
-    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('', include('sendy.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 ]
