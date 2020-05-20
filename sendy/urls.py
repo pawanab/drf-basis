@@ -1,15 +1,14 @@
-from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-from sendy.views import SnippetList, SnippetDetail, UserList, UserDetail, api_root, SinppetHighlight
+from sendy.views import SnippetViewSet, UserViewSet, api_root
+from rest_framework import renderers
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from sendy import views
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'snippets', views.SnippetViewSet)
+router.register(r'users', views.UserViewSet)
 
-
+# The API URLs are now determined automatically by the router.
 urlpatterns = [
-    path('', api_root),
-    path('snippet', SnippetList.as_view(),name='snippet-list'),
-    path('snippet/<int:pk>/highlight', SinppetHighlight.as_view(),name='snippet-highlight'),
-    path('snippet/<int:pk>', SnippetDetail.as_view(),name='snippet-detail'),
-    path('user/', UserList.as_view(),name='user-list'),
-    path('user/<int:pk>', UserDetail.as_view(),name='user-detail')
+    path('', include(router.urls)),
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
